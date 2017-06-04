@@ -98,6 +98,7 @@ void vendor_load_properties()
 {
     std::string platform;
     std::string bootmid;
+    std::string bootcid;
     std::string device;
 
     platform = property_get("ro.board.platform");
@@ -105,15 +106,34 @@ void vendor_load_properties()
         return;
 
     bootmid = property_get("ro.boot.mid");
+    bootcid = property_get("ro.boot.cid");
 
-    if (bootmid == "2PZC30000") {
+    if (bootmid == "2PZC10000") {
+    	/* Asia / EMEA (Single SIM) - OCN_UHL */
+        property_set("ro.build.product", "htc_ocnuhl");
+        property_set("ro.product.model", "HTC U11");
+    } else if (bootmid == "2PZC20000") {
+    	/* Japan (Single SIM) - OCN_UHLJAPAN */
+        property_set("ro.build.product", "htc_ocnuhljapan");
+        property_set("ro.product.model", "601HT");
+    } else if (bootmid == "2PZC30000") {
+    	/* Asia / EMEA (Dual SIM) - OCN_DUGL */
         property_set("ro.build.product", "htc_ocndugl");
         property_set("ro.product.model", "HTC_U-3u");
+    } else if (bootmid == "2PZC40000") {
+    	/* China (Dual SIM) - OCN_DTWL */
+        property_set("ro.build.product", "htc_ocndtwl");
+        property_set("ro.product.model", "HTC U-3w");
     } else if (bootmid == "2PZC50000") {
+        /* Asia / EMEA (Single SIM) - OCN_UHL */
         property_set("ro.build.product", "htc_ocnwhl");
-        property_set("ro.product.model", "2PZC5");
+        if (bootcid == "SPCS_001")
+        	property_set("ro.product.model", "2PZC5");
+        else
+        	property_set("ro.product.model", "HTC U11");
     } else {
-        property_set("ro.build.product", "htc_ocndugl");
+        /* GSM (OCN_UL) */
+        property_set("ro.build.product", "htc_ocnuhl");
         property_set("ro.product.model", "HTC U11");
     }
 

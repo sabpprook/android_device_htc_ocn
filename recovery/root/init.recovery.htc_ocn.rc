@@ -2,8 +2,18 @@ on init
     insmod /system/lib/modules/texfat.ko
 
 on boot
+	setprop sys.usb.configfs 1
     start chargeled
 
 service chargeled /sbin/chargeled
+    disabled
+    seclabel u:r:healthd:s0
+
+service detect_key /sbin/detect_key
+    disabled
+    seclabel u:r:healthd:s0
+    oneshot
+
+service offmode_charging /sbin/offmode_charging
     disabled
     seclabel u:r:healthd:s0
