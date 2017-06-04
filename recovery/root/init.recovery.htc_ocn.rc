@@ -1,3 +1,6 @@
+on init
+    insmod /system/lib/modules/texfat.ko
+
 on boot
     start chargeled
 
